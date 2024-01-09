@@ -1,0 +1,35 @@
+Exercício 1: 
+INSERT INTO Parentesco (IdResponsavel, IdAluno, Parentesco) VALUES (1, 1, 'Pai');
+INSERT INTO Parentesco (IdResponsavel, IdAluno, Parentesco) VALUES (2, 1, 'Mãe');
+
+Exercício 2: 
+SELECT Aluno.Nome AS 'Aluno', 
+       Responsavel1.Nome AS 'Responsavel', 
+       Parentesco1.Parentesco AS 'Parentesco',
+       Responsavel2.Nome AS 'Responsavel', 
+       Parentesco2.Parentesco AS 'Parentesco'
+FROM Aluno
+INNER JOIN (
+    SELECT *, ROW_NUMBER() OVER(PARTITION BY IdAluno ORDER BY IdResponsavel) as rn
+    FROM Parentesco
+) Parentesco1 ON Aluno.Id = Parentesco1.IdAluno AND Parentesco1.rn = 1
+INNER JOIN Responsavel Responsavel1 ON Parentesco1.IdResponsavel = Responsavel1.Id
+INNER JOIN (
+    SELECT *, ROW_NUMBER() OVER(PARTITION BY IdAluno ORDER BY IdResponsavel) as rn
+    FROM Parentesco
+) Parentesco2 ON Aluno.Id = Parentesco2.IdAluno AND Parentesco2.rn = 2
+INNER JOIN Responsavel Responsavel2 ON Parentesco2.IdResponsavel = Responsavel2.Id
+WHERE Aluno.Id = 1;
+
+Bônus 1:
+SELECT 
+    Aluno.Id AS 'Id do Aluno', 
+    Aluno.Nome AS 'Nome do Aluno', 
+    GROUP_CONCAT(DISTINCT Responsavel.Id SEPARATOR ', ') AS 'IDs dos Responsáveis',
+    GROUP_CONCAT(DISTINCT Responsavel.Nome SEPARATOR ', ') AS 'Nomes dos Responsáveis', 
+    GROUP_CONCAT(DISTINCT Parentesco.Parentesco SEPARATOR ', ') AS 'Parentescos'
+FROM Aluno
+LEFT JOIN Parentesco ON Aluno.Id = Parentesco.IdAluno
+LEFT JOIN Responsavel ON Parentesco.IdResponsavel = Responsavel.Id
+GROUP BY Aluno.Id, Aluno.Nome;
+
