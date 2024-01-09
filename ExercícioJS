@@ -1,0 +1,24 @@
+Exercício 1: 
+for (var i = 0; i < clientes.length; i++) {
+    var nomeCompletoSeparado = clientes[i].nome.split(' ');
+    var primeiroNome = nomeCompletoSeparado[0];
+    var ultimoSobrenome = nomeCompletoSeparado[nomeCompletoSeparado.length - 1];
+    console.log(ultimoSobrenome + ', ' + primeiroNome);
+}
+
+Exercício 2:
+var numero = "5(1)9-876-543-21";
+numero = numero.replace(/[^0-9]/g, ''); 
+numero = "(" + numero.substring(0, 2) + ")" + " " + numero.substring(2, 3) + " " + numero.substring(3, 7) + "-" + numero.substring(7);
+console.log(numero); 
+
+Bônus 1: 
+A função é: c
+A função é: d
+A função é: c
+A função é: d
+
+Bônus 2: 
+A função b() tem um return antes de alertUser('b'), isso significa que alertUser('b') nunca será executado.
+A função c() está chamando alertUser('c') depois de resolve(), porém quando resolve() é chamado a promise é resolvida e qualquer código após isso não é executado.
+A função d() está criando uma nova promise, mas não está sendo chamado o resolve(). Isso significa que a promise nunca será resolvida, e como está sendo usado await, as demais funções ficarão pendente esperando d() ser resolvida.
