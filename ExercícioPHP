@@ -1,0 +1,18 @@
+Exercício 1: 
+echo $arrayDeClientes[1]->nome;
+
+Exercício 2:
+foreach ($arrayDeClientes as $cliente) {
+    if (isset($arrayDeNascimento[$cliente->nome])) {
+        $cliente->dataDeNascimento = DateTime::createFromFormat('d-m-Y', $arrayDeNascimento[$cliente->nome]);
+    }
+}
+
+Exercício 3:
+usort($arrayDeClientes, function($a, $b) {
+    return $a->dataDeNascimento <=> $b->dataDeNascimento;
+});
+
+foreach ($arrayDeClientes as $cliente) {
+    echo $cliente->nome . ' nascido em ' . $cliente->dataDeNascimento->format('d-m-Y') . "\\n";
+}
